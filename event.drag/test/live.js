@@ -3,8 +3,9 @@ module("Live Delegation");
 $.each(["draginit","dragstart","drag","dragend"],function( i, type ){
 	
 	test('"'+ type+'"',function(){
-		
-		expect( i ? 5 : 1 );
+        var $drag, count = 0;
+
+        expect( i ? 5 : 1 );
 		
 		if ( !i ){
 			ok( true, 'Not supported for this event type.');
@@ -12,14 +13,13 @@ $.each(["draginit","dragstart","drag","dragend"],function( i, type ){
 		}
 		
 		// set up the delegation
-		$('.drag').live( type, function( event ){
+		$(document).on( type, '.drag', function( event ){
 			count += 1;
-			equals( this, $drag[0], event.type+" target" );
+            ok( $(this).hasClass('drag'), event.type+" target" );
 		});
-		// local refs
-		var count = 0,
-		// add a div to test the delegation
-		$drag = $('<div class="drag" />').appendTo( document.body );
+
+        // add element
+        $drag = $('<div class="drag" />').appendTo( document.body );
 		
 		// manual triggering
 		ok( $drag.trigger( type ), '.trigger("'+ type +'")');
@@ -35,7 +35,7 @@ $.each(["draginit","dragstart","drag","dragend"],function( i, type ){
 		equals( count, 2, "event was delegated");
 
 		// remove delegation
-		$('.drag').die( type );
+		$(document).off( type, '.drag' );
 		$drag.remove();
 	});
 });

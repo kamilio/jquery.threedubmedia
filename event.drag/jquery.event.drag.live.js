@@ -15,7 +15,7 @@ var $event = $.event,
 drag = $event.special.drag,
 // old drag event add method
 origadd = drag.add,
-// old drag event teradown method
+// old drag event teardown method
 origteardown = drag.teardown;
 
 // allow events to bubble for delegation
@@ -25,7 +25,7 @@ drag.noBubble = false;
 drag.livekey = "livedrag";
 
 // new drop event add method
-drag.add = function( obj ){ 
+drag.add = function( obj ){
 	// call the old method
 	origadd.apply( this, arguments );
 	// read the data
@@ -56,7 +56,7 @@ drag.delegate = function( event ){
 	// local refs
 	var elems = [], target, 
 	// element event structure
-	events = $.data( this, "events" ) || {};
+	events = $._data( this, "events" ) || {};
 	// query live events
 	$.each( events || [], function( key, arr ){
 		// no event type matches
